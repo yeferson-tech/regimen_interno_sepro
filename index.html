@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SEPRO Control">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#13263e">
+<meta name="description" content="Consolidador local de partes de personal por grupo. Validación independiente por grado y generación de informe.">
+<title>SEPRO | Consolidador diario de personal</title>
+<style>
+:root{--ink:#122338;--navy:#13263e;--navy2:#203c5b;--blue:#245ca4;--bg:#f3f6f9;--panel:#fff;--line:#dae3ec;--muted:#667a8f;--green:#086b55;--palegreen:#e8f5ef;--red:#a53030;--palered:#fff0ec;--amber:#885714;--paleamber:#fff5e7;--radius:15px;--shadow:0 6px 25px rgba(13,34,60,.055)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.5}input[type="number"]{font-variant-numeric:tabular-nums}input[type="checkbox"]{accent-color:#276a9f;width:16px;height:16px}a{color:var(--blue)}.wrap{max-width:1280px;margin:auto;padding:0 22px}.top{background:var(--navy);color:#fff}.top .wrap{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:12px}.monogram{height:38px;width:38px;border:1px solid #7287a0;border-radius:11px;display:grid;place-items:center;font-weight:900;color:#d5e8fa;background:#254362}.brand strong{font-size:16px;letter-spacing:.055em}.brand small{display:block;color:#b6c9dc;font-size:11px}.label-top{font-size:11px;color:#c5d8e9;border:1px solid #526f88;border-radius:30px;padding:7px 10px;white-space:nowrap}
+main{padding-top:23px!important;padding-bottom:45px!important}.hero{background:linear-gradient(108deg,#17304d,#244b77);color:#fff;padding:24px 28px;border-radius:18px;display:flex;justify-content:space-between;gap:18px;align-items:center;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:220px;height:220px;border:40px solid #ffffff09;border-radius:100%;right:-72px;top:-100px;pointer-events:none}.hero h1{font-size:clamp(21px,3vw,31px);letter-spacing:-.035em;line-height:1.2;margin:5px 0 8px}.hero p{color:#d4e2ef;margin:0;max-width:640px;font-size:12.5px}.eyebrow{color:#88c9d1;letter-spacing:.15em;font-size:10px;font-weight:850}.hero-state{position:relative;z-index:1;background:#ffffff12;border:1px solid #ffffff49;border-radius:25px;white-space:nowrap;font-size:12px;font-weight:750;padding:10px 15px}.hero-state.good{background:#16745f;border-color:#54ad93}.hero-state.bad{background:#8c3d30;border-color:#d78270}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.controls{display:flex;gap:13px;align-items:end;flex-wrap:wrap;padding:17px 20px;margin-top:16px}.field{display:flex;flex-direction:column;gap:5px;min-width:145px}.field label,.field-label{font-size:11px;font-weight:790;color:#455d75}.field small{font-size:10px;color:var(--muted);line-height:1.3}.field input,.field textarea,.field select{width:100%;border:1px solid #cbd8e5;border-radius:9px;background:#fff;color:var(--ink);min-height:41px;padding:9px 11px;outline:none}.field input:focus,.field textarea:focus,.field select:focus,.matrix input:focus{border-color:#2e71ba;box-shadow:0 0 0 3px #2e71ba20}.grow{flex:1}.btn{padding:10px 14px;border-radius:9px;font-size:12px;font-weight:800;border:1px solid #cedbe8;background:#fff;color:#2c4b6a;min-height:40px}.btn:hover:not(:disabled){background:#f5f9fd}.btn.primary{background:#235ea7;color:#fff;border-color:#235ea7}.btn.primary:hover:not(:disabled){background:#194c88}.btn.soft{background:#edf4fc;color:#224f82;border-color:#d5e3f2}.btn.danger{background:#fff;color:#a63333;border-color:#efcaca}.btn.danger:hover:not(:disabled){background:#fff2f2}.meta{margin-left:auto;text-align:right;color:#6c8196;font-size:11px}.meta strong{display:block;color:#55738f}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:25px 0 12px}.section-head h2{font-size:18px;line-height:1.2;margin:0;letter-spacing:-.022em}.section-head p{margin:4px 0 0;color:var(--muted);font-size:12px}.small-muted{color:#77899a;font-size:11px}.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.kpi{padding:15px 16px 14px;min-width:0;position:relative}.kpi:before{content:"";position:absolute;top:20px;bottom:20px;left:0;width:3px;background:#98b8d7;border-radius:4px}.kpi:nth-child(3):before{background:#75b6a5}.kpi:nth-child(4):before{background:#cfb183}.kpi:nth-child(5):before{background:#cb887e}.kpi .name{font-size:11px;color:#6c7d91;font-weight:770}.kpi .value{font-size:clamp(19px,2.5vw,29px);font-weight:880;margin-top:7px;line-height:1.2;letter-spacing:-.035em;word-break:break-word;font-variant-numeric:tabular-nums}.kpi .hint{margin-top:5px;font-size:10px;color:#8593a4}.bar{height:6px;background:#e8edf3;border-radius:10px;overflow:hidden;margin-top:9px}.bar-fill{background:#15876f;height:100%;width:0;transition:width .2s}.alert-area{margin-top:14px}.alertbox{border:1px solid #e8d5c4;border-radius:12px;background:#fffaf4;padding:14px 17px}.alertbox.good{background:#f0faf5;border-color:#c8e8da}.alertbox.danger{background:#fff5f2;border-color:#eac6c0}.alert-title{display:flex;align-items:center;gap:8px;font-weight:860;font-size:13px;margin-bottom:6px}.alert-list{margin:6px 0 0;padding-left:19px;font-size:12px;line-height:1.7}.alert-list li+li{margin-top:3px}.alert-explainer{color:#607187;font-size:11px;margin-top:7px}
+.layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:17px;align-items:start}.group-menu{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}.group-btn{border:1px solid #d6e0ea;border-radius:10px;background:#fff;font-size:12px;font-weight:850;padding:10px 12px;color:#36546d;display:flex;align-items:center;gap:7px}.group-btn.active{background:#1b456f;color:#fff;border-color:#1b456f}.indicator{height:7px;width:7px;border-radius:100%;background:#a0b1c0;flex:0 0 auto}.indicator.ok{background:#32a778}.indicator.err{background:#dc7760}.indicator.incomplete{background:#e5ae4e}.group-btn.active .indicator{box-shadow:0 0 0 2px #ffffff66}
+.pad{padding:18px 20px}.box-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.box-head h3{margin:0;font-size:16px;line-height:1.3}.box-head p{margin:3px 0 0;font-size:11px;color:#708398}.switch{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:780;white-space:nowrap;color:#405b73}.subsection{font-weight:840;color:#4e6480;text-transform:uppercase;letter-spacing:.085em;font-size:10px;margin:17px 0 8px}.paste{background:#f6f9fc;border:1px solid #e1eaf2;border-radius:12px;padding:13px;margin-top:15px}.paste p{font-size:11px;color:#657a90;margin:3px 0 10px}.paste textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #cfdae5;padding:10px;border-radius:9px;background:#fff;font-size:12px;color:var(--ink);outline:none}.paste-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}.paste-result{font-size:11px;color:#657a8f}.paste-result.warn{color:var(--red)}.matrix{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,minmax(52px,80px));align-items:center;gap:6px 9px}.matrix-head{font-size:10px;font-weight:850;color:#77899c;text-align:center;padding:5px 0}.matrix-head:first-child{text-align:left}.matrix .rlabel{font-weight:710;font-size:12px;line-height:1.3;color:#3c546d}.matrix input{border:1px solid #cbd9e7;outline:0;padding:6px 7px;min-width:0;width:100%;height:35px;border-radius:8px;background:#fff;text-align:center;font-size:13px;color:var(--ink)}.matrix input::placeholder{color:#bac7d1}.matrix .row-rule{grid-column:1/-1;height:1px;background:#e7edf4;margin:5px 0}.matrix .calc-label{font-weight:820;font-size:12px}.calc-cell{background:#eaf3fa;text-align:center;border:1px solid #d1e2ef;border-radius:8px;padding:7px 2px;font-weight:880;min-height:35px;color:#1c5278;font-variant-numeric:tabular-nums}.calc-cell.negative{background:#fff0ee;border-color:#e9c4bd;color:#a53434}.row-hint{font-size:11px;color:#788c9d;margin-top:8px}.summary-box{padding:18px}.summary-box h3{margin:0 0 5px;font-size:15px}.summary-box p{font-size:12px;color:#60778b;margin:0 0 11px}.audit-row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid #e8eef4;font-size:12px}.audit-row b{font-variant-numeric:tabular-nums;white-space:nowrap}.audit-caption{color:#5c7187}.tag{font-size:11px;font-weight:850;display:inline-flex;border-radius:6px;padding:4px 7px;background:#eff3f7;color:#647a8b}.tag.ok{background:#e7f5eb;color:#117253}.tag.err{background:#fff0e9;color:#b4452d}.tag.incomplete{background:#fff4df;color:#926215}.local-issues{list-style:none;padding:0;margin:11px 0 0}.local-issues li{padding:9px 11px;border-radius:8px;background:#fff3ed;color:#9d3933;border:1px solid #f3d8d0;font-size:11px;margin-top:7px;line-height:1.5}.aside-info{padding:15px 17px;margin-top:13px;background:#f9fbfe}.aside-info b{display:block;font-size:12px}.aside-info p{font-size:11px;color:#708398;margin:6px 0 0;line-height:1.65}.form-caption{font-size:11px;color:#708499;margin:8px 0 0}
+.acts-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:17px}.act{min-width:0}.act label{font-size:12px;font-weight:850;color:#35506b;display:block;margin-bottom:6px}.act textarea{width:100%;height:110px;resize:vertical;background:#fefefe;border:1px solid #d5e0ec;border-radius:10px;padding:11px;font-size:12px;line-height:1.55;outline:none}.act textarea:focus{border-color:#2e71ba;box-shadow:0 0 0 3px #2e71ba20}.output-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(290px,.8fr);gap:16px;align-items:start}.report{overflow:hidden}.report-head{padding:17px 20px;border-bottom:1px solid #e1eaf2;display:flex;align-items:center;justify-content:space-between;gap:10px}.report-head h3{margin:0;font-size:15px}.report-head small{color:#7890a0;font-size:10.5px}.preview{padding:22px;background:#fafcfe;font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;color:#25364a;white-space:pre-wrap;overflow-wrap:anywhere;max-height:590px;min-height:360px;overflow:auto;line-height:1.7;margin:0}.action-row{display:flex;flex-wrap:wrap;gap:8px;padding:13px 17px;border-top:1px solid #e2eaf2}.settings-card{padding:19px}.settings-card h3{font-size:15px;margin:0 0 13px}.settings-card .field{margin-bottom:12px}.settings-card textarea{height:68px;resize:vertical}.checkrow{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:#526c83;margin:11px 0;cursor:pointer}.settings-card .note{background:#eef5fb;border-left:3px solid #4680bd;color:#5c7187;font-size:11px;padding:10px 12px;border-radius:0 8px 8px 0;line-height:1.6}.storage{padding:17px 19px;margin-top:15px}.storage h3{font-size:14px;margin:0 0 5px}.storage p{color:#6c7f92;font-size:11px;line-height:1.6;margin:0 0 13px}.storage-actions{display:flex;flex-wrap:wrap;gap:7px}.foot{text-align:center;font-size:11px;color:#77889a;margin:25px 0 0;line-height:1.7}.toast{position:fixed;right:18px;bottom:18px;background:#183c58;color:#fff;padding:11px 17px;border-radius:11px;box-shadow:0 11px 33px #101b3040;z-index:10;font-size:12px;opacity:0;pointer-events:none;transition:opacity .15s;max-width:340px}.toast.show{opacity:1}#printArea{display:none}
+.workflow{margin-top:12px;padding:14px 18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.workflow-step{display:flex;gap:10px;align-items:center;min-width:0}.workflow-step>strong{height:30px;width:30px;flex:0 0 30px;display:grid;place-items:center;border-radius:100%;background:#e9f3fc;color:#215a90;font-size:13px}.workflow-step span{display:flex;flex-direction:column;min-width:0;line-height:1.3}.workflow-step b{font-size:12px}.workflow-step small{font-size:10px;color:#77899c;margin-top:2px}
+@media(max-width:880px){.workflow{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:450px){.workflow{padding:13px 12px;gap:12px 4px}.workflow-step{gap:7px}.workflow-step>strong{height:25px;width:25px;flex-basis:25px}.workflow-step b{font-size:10.8px}.workflow-step small{font-size:9px}}
+@media(max-width:1060px){.kpis{grid-template-columns:repeat(3,1fr)}.layout{grid-template-columns:1fr}.aside-info{margin-bottom:0}.output-layout{grid-template-columns:1fr}.settings-card{display:grid;grid-template-columns:repeat(2,1fr);gap:0 14px}.settings-card h3,.settings-card .note{grid-column:1/-1}}@media(max-width:680px){.wrap{padding-left:12px;padding-right:12px}.top .wrap{min-height:62px}.label-top{font-size:9px;padding:5px 7px}.brand strong{font-size:14px}.brand small{font-size:10px}.hero{padding:21px 17px;display:block}.hero-state{margin-top:12px;display:inline-block}.controls{padding:14px;gap:8px}.controls .field{flex:1;min-width:175px}.controls .meta{margin-left:0;width:100%;text-align:left}.kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.kpi{padding:13px}.kpi:last-child{grid-column:1/-1}.kpi .value{font-size:24px}.section-head{margin-top:22px}.section-head h2{font-size:17px}.pad{padding:15px 12px}.group-menu{display:flex;flex-wrap:nowrap;overflow:auto;padding:2px 0 10px}.group-btn{flex-shrink:0}.matrix{grid-template-columns:minmax(0,1fr) repeat(3,minmax(47px,60px));gap:6px}.matrix .rlabel{font-size:11px}.matrix input{font-size:12px;padding:5px 2px}.acts-grid{grid-template-columns:1fr;padding:13px}.settings-card{display:block}.preview{padding:17px 12px}.small-muted{display:none}}
+@media print{body{background:white}.top,.hero,.controls,.kpis,.section-head,.alert-area,.group-menu,.layout,.acts-grid,.settings-card,.storage,.action-row,.foot{display:none!important}main{padding:0!important}.output-layout{display:block}.report{box-shadow:none;border:0}.report-head{display:none}.preview{max-height:none;font-size:11px;white-space:pre-wrap;background:white;padding:0;overflow:visible;line-height:1.4}.toast{display:none}}
+/* Compatibilidad con Safari de iPhone y navegadores Android: campos legibles sin ampliación automática, interacción táctil y selección de texto. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}button,select,input,textarea{touch-action:manipulation}.preview{-webkit-user-select:text;user-select:text}
+@media(max-width:680px){.field input,.field select,.field textarea,.paste textarea,.act textarea,.matrix input{font-size:16px!important}.btn,.group-btn{min-height:44px}.matrix input{height:42px}.controls .field{min-width:140px}.paste-actions .btn{flex-grow:1}}
+@media(hover:none) and (pointer:coarse){.btn,.group-btn{min-height:44px}.matrix input{min-height:42px}}
+@media(max-width:360px){.top .wrap{gap:7px}.brand{min-width:0;gap:7px}.brand strong{font-size:12px}.brand small{font-size:8px}.monogram{width:33px;height:33px;flex:0 0 33px}.label-top{max-width:116px;white-space:normal;text-align:center;line-height:1.2;font-size:8px}}
+.manual-overlay{position:fixed;inset:0;z-index:50;background:rgba(12,26,44,.65);display:grid;place-items:center;padding:18px}.manual-overlay[hidden]{display:none}.manual-card{background:#fff;border-radius:15px;padding:22px;width:100%;max-width:540px;box-shadow:0 18px 65px #0004}.manual-card h3{margin:0;font-size:17px}.manual-card p{font-size:12px;color:#5c7187;line-height:1.6}.manual-card textarea{display:block;width:100%;height:min(42vh,300px);margin:12px 0;resize:vertical;white-space:pre-wrap;border:1px solid #bacbdb;border-radius:9px;padding:11px;font-size:16px;line-height:1.5;color:#13263e;background:#fff;-webkit-user-select:text;user-select:text}.manual-actions{display:flex;gap:8px;flex-wrap:wrap}.manual-actions .btn{flex-grow:1}
+@supports (padding: env(safe-area-inset-bottom)){.manual-overlay{padding-bottom:max(18px,env(safe-area-inset-bottom))}.toast{bottom:max(18px,env(safe-area-inset-bottom))}}
+
+/* Pantalla de iPhone/Android: lectura y escritura de datos sin columnas cortadas. */
+[hidden],.runtime-warning[hidden],#mainApp[hidden]{display:none!important}
+.runtime-warning{max-width:700px;margin:24px auto;padding:20px;display:flex;flex-direction:column;gap:10px;border:1px solid #d9b582;border-left:5px solid #966124;border-radius:12px;background:#fffaf2;color:#263748;font-size:15px;line-height:1.5}
+.runtime-warning strong{font-size:19px}
+.mobile-quick{display:none}
+.matrix{display:flex;flex-direction:column;gap:6px}
+.matrix-head-row,.matrix-row{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,minmax(52px,80px));align-items:center;gap:9px}
+.matrix .matrix-head{font-size:10px;font-weight:850;color:#77899c;text-align:center}
+.matrix .matrix-head:first-child{text-align:left}
+.matrix .rlabel{font-size:12px}
+.matrix-number{display:flex;flex-direction:column;min-width:0}
+.matrix-number input{max-width:100%;height:38px;font-size:14px}
+.matrix .rank-short{display:none}
+.matrix .calc-row{border-top:1px solid #dce7f0;padding-top:12px;margin-top:9px}
+.matrix .calc-cell{font-size:14px}
+.quick-result{margin-top:12px;background:#fff;border:1px solid #dce6f0;border-radius:10px;padding:12px;font-size:12px;color:#5d7085}
+.quick-result.qr-good{background:#f0faf5;border-color:#b6ddca}
+.quick-result.qr-bad{background:#fff4ef;border-color:#eac3b2}
+.qr-heading{font-weight:850;font-size:13px;margin-bottom:9px;color:#1c4b6c}
+.qr-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.qr-values div{border-radius:8px;background:#ffffffb8;padding:7px 5px;min-width:0}
+.qr-values small{display:block;font-size:10px;color:#657a90}
+.qr-values b{display:block;font-size:clamp(12px,3.5vw,16px);letter-spacing:-.03em;color:#18364e;white-space:nowrap}
+.quick-result p{margin:8px 0 0;line-height:1.45;font-size:11px;color:#536c7e}
+@media(max-width:680px){
+ body{font-size:15px;padding-bottom:calc(66px + env(safe-area-inset-bottom,0px))}
+ .top .wrap{min-height:60px;padding-top:6px;padding-bottom:6px}
+ .top .brand strong{font-size:15px}.top .brand small{font-size:11px}
+ .top .label-top{display:none}
+ main{padding-top:12px!important}
+ .hero{padding:16px;border-radius:14px}
+ .hero h1{font-size:clamp(22px,6.5vw,28px);line-height:1.15}
+ .hero p{font-size:12px;line-height:1.55}
+ .hero-state{margin-top:10px;padding:7px 11px;font-size:11px}
+ .mobile-quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;position:fixed;bottom:0;left:0;right:0;padding:9px 12px calc(10px + env(safe-area-inset-bottom,0px));z-index:15;background:#fff;border-top:1px solid #d6e2ec;box-shadow:0 -4px 18px #10253a13}
+ .mobile-quick a{display:block;text-align:center;background:#eff5fa;border:1px solid #e0e9f0;border-radius:10px;color:#294d6e;text-decoration:none;font-size:12px;font-weight:850;padding:11px 3px;line-height:1.2}
+ section[id]{scroll-margin-top:10px}
+ .controls{padding:13px;margin-top:12px}
+ .controls .field{min-width:calc(50% - 7px)}
+ .controls .field label{font-size:12px}
+ .controls .btn{flex:1;min-width:0;white-space:normal}
+ .workflow{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:10px}
+ .workflow-step{gap:9px}.workflow-step b{font-size:11px}.workflow-step small{font-size:10px}
+ .section-head{margin:23px 0 11px}.section-head h2{font-size:18px}.section-head p{font-size:12px}
+ .kpis{gap:9px}
+ .kpi .name{font-size:11px;line-height:1.35}
+ .kpi .value{font-size:clamp(22px,6vw,26px)}
+ .group-menu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;overflow:visible;padding-bottom:5px}
+ .group-btn{min-width:0;width:100%;justify-content:center;padding:11px 4px;min-height:45px;font-size:13px}
+ .layout{display:flex;flex-direction:column;align-items:stretch;gap:12px}
+ .layout>div,.layout>aside{width:100%;min-width:0}
+ .box-head{align-items:flex-start}.box-head h3{font-size:15px}
+ .box-head p{font-size:12px}
+ .switch{white-space:normal;text-align:right;align-items:center;max-width:125px}
+ .paste textarea{min-height:160px;line-height:1.5}
+ .paste p{font-size:12px;line-height:1.5}
+ .paste-actions{gap:7px}
+ .paste-actions .btn{padding:10px 8px;font-size:12px}
+ #parseBtn{flex-basis:100%;font-size:14px;min-height:48px}
+ .matrix{gap:0}
+ .matrix-head-row{display:none}
+ .matrix-row{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 8px;padding:12px 0;border-bottom:1px solid #e3ebf2}
+ .matrix .matrix-row:last-child{border-bottom:0}
+ .matrix .rlabel,.matrix .calc-label{grid-column:1/-1;font-size:13px;line-height:1.35;color:#24455e;font-weight:800}
+ .matrix .rank-short{display:block;margin:0 0 4px;text-align:center;color:#647d93;font-size:11px;font-weight:800;line-height:1.2}
+ .matrix-number input{min-height:45px;height:45px!important;font-size:17px!important;border-radius:9px}
+ .matrix .calc-row{padding-top:13px}
+ .matrix .calc-cell{min-height:45px;padding:10px 3px;display:block;font-size:18px}
+ .row-hint{font-size:12px;line-height:1.45}
+ .summary-box .audit-row{font-size:13px}
+ .acts-grid{gap:9px}
+ .act label{font-size:14px}
+ .act textarea{height:115px}
+ .output-layout{display:flex;flex-direction:column;gap:12px}
+ .output-layout>article,.output-layout>aside{width:100%}
+ .output-layout>aside{order:-1}
+ .preview{font-size:14px;line-height:1.55;min-height:230px;max-height:none;overflow:visible;overflow-wrap:anywhere}
+ .action-row{gap:8px}
+ .action-row button{flex:1 1 100%;min-height:48px;font-size:13px}
+ .settings-card{padding:16px}
+ .settings-card .field label{font-size:12px}
+ .settings-card .note{font-size:12px}
+ .foot{padding:0 6px 15px;font-size:12px}
+ .toast{bottom:calc(75px + env(safe-area-inset-bottom,0px));left:14px;right:14px;max-width:none;text-align:center;font-size:13px}
+ .quick-result{padding:13px}
+ .qr-heading{font-size:14px}
+ .qr-values b{font-size:clamp(12px,3.6vw,16px)}
+}
+@media(max-width:359px){
+ .controls .field{min-width:100%}
+ .group-menu{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+ .group-btn{font-size:12px;padding:10px 2px}
+ .qr-values small{font-size:9px}
+ .qr-values div{padding:6px 3px}
+ .qr-values b{font-size:12px}
+}
+
+</style>
+</head>
+<body>
+<div id="runtimeWarning" class="runtime-warning" role="alert"><strong>Esta es una vista previa del archivo, no la aplicación funcionando.</strong><span>Para realizar los cálculos en iPhone, abre SEPRO Control como una página mediante un <b>enlace HTTPS institucional</b> en Safari. Abrir el HTML desde la vista previa de Archivos o WhatsApp puede desactivar los botones.</span></div>
+<header class="top"><div class="wrap"><div class="brand"><div class="monogram">SP</div><div><strong>SEPRO CONTROL</strong><small>Consolidación diaria de personal · DEMAM</small></div></div><span class="label-top">Uso del régimen interno · datos temporales</span></div></header>
+<main class="wrap" id="mainApp" hidden>
+  <div class="hero"><div><div class="eyebrow">HERRAMIENTA DEL FUNCIONARIO DE RÉGIMEN INTERNO</div><h1>Recibe cinco partes. Obtén un solo consolidado.</h1><p>El funcionario que está de régimen prepara el día anterior el PIN correspondiente a la jornada siguiente. Recibe por WhatsApp los cinco partes, consolida las cifras y revisa las actividades. Los grupos no necesitan acceder a esta aplicación.</p></div><span id="heroState" class="hero-state">Esperando partes</span></div>
+  <nav class="mobile-quick" aria-label="Ir a una sección"><a href="#summary">Resumen</a><a href="#capture">Cargar partes</a><a href="#output">PIN</a></nav>
+  <div class="controls card"><div class="field"><label for="recipientRank">Destinatario · grado</label><select id="recipientRank"><option>Patrullero</option><option>Subintendente</option><option>Intendente</option><option>Intendente Jefe</option><option>Subcomisario</option><option>Comisario</option><option>Subteniente</option><option>Teniente</option><option>Capitán</option><option>Mayor</option><option>Teniente Coronel</option><option>Coronel</option><option>Brigadier General</option><option>Mayor General</option><option>General</option></select></div><div class="field"><label for="dateInput">Fecha de las actividades y del parte</label><input type="date" id="dateInput"><small>Por defecto, se prepara para mañana.</small></div><button class="btn soft" id="todayBtn" type="button">Usar hoy</button><button class="btn" id="tomorrowBtn" type="button">Usar mañana</button><div class="meta"><strong id="saveState">Solo en memoria</strong>No se guarda en el navegador ni se envía a servidores</div></div><div class="workflow card" aria-label="Pasos para el funcionario de régimen"><div class="workflow-step"><strong>1</strong><span><b>Seleccionar fecha</b><small>Una jornada distinta cada día</small></span></div><div class="workflow-step"><strong>2</strong><span><b>Cargar los cinco partes</b><small>Pegar WhatsApp o digitar cifras</small></span></div><div class="workflow-step"><strong>3</strong><span><b>Revisar descuadres</b><small>Efectiva − novedades = disponible</small></span></div><div class="workflow-step"><strong>4</strong><span><b>Copiar, enviar y borrar</b><small>Después del envío, elimina los datos</small></span></div></div>
+  <section id="summary" aria-label="Resumen del día"><div class="section-head"><div><h2>Resumen general</h2><p>Los totales solo incluyen los grupos marcados como recibidos.</p></div><span id="summaryDate" class="small-muted"></span></div><div class="kpis"><div class="kpi card"><div class="name">Grupos recibidos</div><div class="value" id="kGroups">0 / 5</div><div class="bar"><div class="bar-fill" id="progressBar"></div></div></div><div class="kpi card"><div class="name">Fuerza efectiva</div><div class="value" id="kEffective">—</div><div class="hint">O – NE – P</div></div><div class="kpi card"><div class="name">Disponible reportada</div><div class="value" id="kAvailable">—</div><div class="hint">O – NE – P</div></div><div class="kpi card"><div class="name">Novedades reportadas</div><div class="value" id="kNovelty">—</div><div class="hint">O – NE – P</div></div><div class="kpi card"><div class="name">Grupos con observaciones</div><div class="value" id="kIssues">0</div><div class="hint" id="kIssueHint">Sin partes recibidos</div></div></div><div class="alert-area" id="alerts" aria-live="polite"></div></section>
+  <section id="capture"><div class="section-head"><div><h2>1. Cargar partes recibidos</h2><p>Esta sección la diligencia únicamente el funcionario de régimen interno. Selecciona el grupo del mensaje y pega su parte, o escribe las cifras manualmente.</p></div></div><nav id="groupNav" class="group-menu" aria-label="Elegir grupo"></nav>
+  <div class="layout"><div class="card pad"><div class="box-head"><div><h3 id="groupTitle">GUPRO</h3><p>Primero la fuerza efectiva; después las novedades. La disponible se calcula automáticamente.</p></div><label class="switch"><input id="receivedBox" type="checkbox"> Parte recibido</label></div>
+  <div class="paste"><b style="font-size:12px">Importar mensaje de WhatsApp</b><p>Pega el parte completo o abreviado. Reconoce etiquetas como FE, FD, Permis y Vac, además de los nombres completos. Las secciones de ubicación o personal trabajando no se suman como novedades. El texto y los nombres no se guardan.</p><textarea id="pasteInput" autocomplete="off" placeholder="Parte completo:
+*FUERZA EFECTIVA*
+0-5-1
+*FUERZA DISPONIBLE*
+0-4-1
+*PERMISO / FRANQUICIA*
+0-1-1
+*VACACIONES*
+0-1-0
+*NOVEDADES*
+0-1-0
+
+O abreviado:
+FE 0-3-3
+FD 0-2-0
+Permis 0-1-2
+Vac 0-0-1" spellcheck="false"></textarea><div class="paste-actions"><button class="btn primary" id="parseBtn" type="button">Calcular este grupo</button><button class="btn soft" id="nextGroupBtn" type="button">Siguiente grupo →</button><button class="btn" id="clearPasteBtn" type="button">Borrar texto</button><span class="paste-result" id="parseMsg" aria-live="polite"></span></div><div class="quick-result" id="quickResult" aria-live="polite"><span>Selecciona el grupo, pega el parte y pulsa «Calcular este grupo».</span></div></div>
+  <div class="subsection">Valores generales · entrada manual</div><div id="mainMatrix" class="matrix"></div><div class="subsection">Detalle de las novedades</div><div id="detailMatrix" class="matrix"></div><p class="row-hint">Deja en blanco las casillas no reportadas. Escribe 0 cuando un concepto esté explícitamente en cero.</p></div>
+  <aside><div class="card summary-box"><div class="box-head"><h3>Revisión del grupo</h3><span id="groupTag" class="tag">Pendiente</span></div><p>Comprobación individual: ninguna diferencia se compensa con otro grupo.</p><div class="audit-row"><span class="audit-caption">Fuerza efectiva</span><b id="auditEffective">—</b></div><div class="audit-row"><span class="audit-caption">Novedades desglosadas</span><b id="auditDetails">—</b></div><div class="audit-row"><span class="audit-caption">Novedades reportadas</span><b id="auditNovelty">—</b></div><div class="audit-row"><span class="audit-caption">Disponible calculada</span><b id="auditAvailable">—</b></div><div class="audit-row"><span class="audit-caption">Disponible reportada</span><b id="auditReportedAvailable">—</b></div><ul class="local-issues" id="groupIssues"></ul></div><div class="card aside-info"><b>Cómo se comprueba cada rango</b><p><b>Fuerza efectiva − suma de novedades = disponible.</b> Si el grupo reporta además los totales de novedades y la disponible, deben coincidir con esos cálculos. Un error de una sola persona deja el grupo en revisión.</p><p><b>O:</b> Oficiales · <b>NE:</b> Nivel ejecutivo · <b>P:</b> Patrulleros. El PIN puede añadir una cuarta posición fija en 0 para conservar el formato mostrado.</p></div></aside></div></section>
+  <section id="activities"><div class="section-head"><div><h2>2. Actividades proyectadas</h2><p>Escribe una actividad por línea. Si un renglón empieza por “Horario” o “Horarios”, se conserva debajo de la actividad anterior.</p></div></div><div class="acts-grid card" id="activityGrid"></div></section>
+  <section id="output"><div class="section-head"><div><h2>3. PIN para remitir al comandante</h2><p>El régimen del día anterior prepara el reporte de la fecha seleccionada. Verifica los cinco partes y los datos de destinatario y firmante antes de copiar.</p></div><span class="small-muted" id="reportState">BORRADOR</span></div><div class="output-layout"><article class="report card"><div class="report-head"><h3>Vista previa del mensaje</h3><small>Formato listo para copiar en WhatsApp cuando esté validado</small></div><pre class="preview" id="reportPreview"></pre><div class="action-row"><button class="btn primary" type="button" id="copyBtn" disabled>Copiar PIN validado</button><button class="btn soft" type="button" id="shareBtn" disabled hidden>Compartir PIN</button><button class="btn danger" type="button" id="clearAfterSendBtn">Ya envié el PIN · borrar datos</button></div></article><aside><div class="card settings-card"><h3>Datos de quien reporta</h3><div class="field"><label for="leadText">Frase introductoria</label><input id="leadText" maxlength="240" placeholder="Respetuosamente me permito enviar..."></div><div class="field"><label for="reporterRank">Grado de quien reporta</label><select id="reporterRank"><option>Patrullero</option><option>Subintendente</option><option>Intendente</option><option>Intendente Jefe</option><option>Subcomisario</option><option>Comisario</option><option>Subteniente</option><option>Teniente</option><option>Capitán</option><option>Mayor</option><option>Teniente Coronel</option><option>Coronel</option><option>Brigadier General</option><option>Mayor General</option><option>General</option></select></div><div class="field"><label for="reporterName">Nombre completo de quien reporta</label><input id="reporterName" maxlength="160" placeholder="Ej.: NOMBRE COMPLETO DEL RESPONSABLE" autocomplete="off"></div><div class="field"><label for="greetingMode">Saludo del PIN</label><select id="greetingMode"><option value="auto">Automático según la hora</option><option value="morning">Buenos días</option><option value="afternoon">Buenas tardes</option><option value="night">Buenas noches</option></select><small>Automático según la hora local: 00:00–11:59 Buenos días; 12:00–18:59 Buenas tardes; 19:00–23:59 Buenas noches.</small></div><div class="field"><label for="role">Cargo y dependencia (editable)</label><textarea id="role" rows="2"></textarea></div><label class="checkrow"><input type="checkbox" id="appendZero" checked> Añadir <b>“-0”</b> al final de cada cifra, como en el PIN de cuatro posiciones.</label><label class="checkrow"><input type="checkbox" id="showTotalNovelty"> Incluir también la fila “NOVEDADES” en el PIN (no aparece en el ejemplo enviado).</label><div class="note">Privacidad: los datos solo permanecen temporalmente en esta pestaña. No se guardan en el navegador ni se envían a servidores. Al recargar o cerrar, se borran.</div></div></aside></div>
+<div class="foot">Privacidad: esta aplicación no tiene historial ni almacenamiento permanente. Tras enviar el PIN, pulsa “Ya envié el PIN · borrar datos”. Al cerrar o recargar la página, la sesión se limpia. La aplicación no puede borrar copias ya enviadas por WhatsApp ni garantizar la eliminación del historial del portapapeles del dispositivo. Verifica las cifras antes del envío.<br><strong style="display:block;margin-top:9px;color:#526c83">Plataforma creada por el ingeniero Yeferson Payares Ayala · <span id="currentYear">2026</span></strong></div>
+</main><div class="toast" role="status" id="toast"></div>
+<div class="manual-overlay" id="copyModal" hidden role="dialog" aria-modal="true" aria-labelledby="copyModalTitle">
+  <div class="manual-card">
+    <h3 id="copyModalTitle">Copiar PIN manualmente</h3>
+    <p>Si Safari no permite copiar automáticamente, mantén presionado el texto y selecciona <b>Copiar</b>. También puedes pulsar <b>Seleccionar todo</b>. Al cerrar se elimina este texto de la ventana.</p>
+    <textarea id="manualCopyText" readonly spellcheck="false" aria-label="Texto del PIN para copiar"></textarea>
+    <div class="manual-actions"><button class="btn primary" type="button" id="selectManualBtn">Seleccionar todo</button><button class="btn" type="button" id="closeCopyModalBtn">Cerrar</button></div>
+  </div>
+</div>
+<script>
+(function(){"use strict";
+const GROUPS=["GINAD","GUTUR","UBIC","GUPRO","SEPRO"], RANKS=["Oficiales","Nivel ejecutivo","Patrulleros"], SHORT=["O","NE","P"], POLICE_RANKS=["Patrullero","Subintendente","Intendente","Intendente Jefe","Subcomisario","Comisario","Subteniente","Teniente","Capitán","Mayor","Teniente Coronel","Coronel","Brigadier General","Mayor General","General"];
+const CATEGORIES=[{key:"permiso",label:"Franquicia / permiso",final:"FRANQUICIA O PERMISO"},{key:"estudio",label:"Comisión de estudio",final:"COMISIÓN DE ESTUDIO"},{key:"vacaciones",label:"Vacaciones",final:"VACACIONES"},{key:"paternidad",label:"Paternidad / maternidad",final:"*LICENCIA DE PATERNIDAD / MATERNIDAD*"},{key:"servicio",label:"Comisión de servicio",final:"COMISIÓN DE SERVICIO"},{key:"excusado",label:"Excusado / incapacidad",final:"EXCUSADO / INCAPACIDAD"},{key:"calamidad",label:"Calamidad",final:"CALAMIDAD"},{key:"descanso",label:"Descanso",final:"DESCANSO"},{key:"otras",label:"Otras novedades",final:"OTRAS NOVEDADES"}];
+const $=id=>document.getElementById(id);const blank=()=>["","",""];const emptyGroup=()=>({received:false,effective:blank(),available:blank(),reportedNov:blank(),details:Object.fromEntries(CATEGORIES.map(x=>[x.key,blank()])),activities:""});
+const newDay=()=>({groups:Object.fromEntries(GROUPS.map(g=>[g,emptyGroup()])),recipientRank:"Coronel",leadText:"Respetuosamente me permito enviar actividades proyectadas para el día",reporterRank:"Mayor",reporterName:"",role:"Jefe Seccional de Protección y Servicios Especiales DEMAM.",greetingMode:"auto",appendZero:true,showTotalNovelty:false});
+const shiftedDate=(offset)=>{const d=new Date();d.setDate(d.getDate()+offset);const p=n=>String(n).padStart(2,"0");return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`};const today=()=>shiftedDate(0),tomorrow=()=>shiftedDate(1);
+const validDate=d=>/^\d{4}-\d{2}-\d{2}$/.test(d)&&!Number.isNaN(new Date(d+"T12:00:00").getTime());
+let state={v:2,days:{}},date=tomorrow(),selected="GINAD",toastTimer;
+// Esta versión no guarda reportes. Elimina la clave usada por versiones antiguas que sí persistían datos.
+try{localStorage.removeItem("sepro_control_personal_v2")}catch(e){}
+function day(){if(!state.days[date])state.days[date]=newDay();const d=state.days[date];if(!d.groups)d.groups={};GROUPS.forEach(g=>{if(!d.groups[g])d.groups[g]=emptyGroup();if(!d.groups[g].details)d.groups[g].details={};migrateLegacyDetails(d.groups[g].details)});if(!POLICE_RANKS.includes(d.recipientRank))d.recipientRank="Coronel";if(!POLICE_RANKS.includes(d.reporterRank))d.reporterRank="Mayor";if(typeof d.reporterName!=="string"){const oldSig=String(d.signature||"").trim(),m=oldSig.match(/^(.+?)\.\s*(.+)$/);if(m){const oldRank=POLICE_RANKS.find(r=>r.toLowerCase()===m[1].trim().toLowerCase());if(oldRank){d.reporterRank=oldRank;d.reporterName=m[2].replace(/\.$/,"").trim()}else d.reporterName=""}else d.reporterName=""}if(typeof d.leadText!=="string")d.leadText="Respetuosamente me permito enviar actividades proyectadas para el día";if(typeof d.role!=="string")d.role="Jefe Seccional de Protección y Servicios Especiales DEMAM.";if(!["auto","morning","afternoon","night"].includes(d.greetingMode))d.greetingMode="auto";return d}
+function group(id=selected){return day().groups[id]}
+const has=x=>x!==null&&x!==undefined&&x!=="";
+function sanitizeCount(v){if(v===""||v===null||v===undefined)return "";const num=Number(v);return Number.isSafeInteger(num)&&num>=0&&num<=99999?String(num):""}
+const vec=a=>[0,1,2].map(i=>Number(sanitizeCount(Array.isArray(a)?a[i]:""))||0);
+const full=a=>Array.isArray(a)&&a.length>=3&&a.slice(0,3).every(v=>sanitizeCount(v)!=="");
+const any=a=>Array.isArray(a)&&a.some(has);
+const add=(a,b)=>a.map((n,i)=>n+b[i]);const sub=(a,b)=>a.map((n,i)=>n-b[i]);const zeros=()=>[0,0,0];
+function migrateLegacyDetails(details){
+ if(!details||typeof details!=="object")return;
+ const aliases=[["franquicia","permiso"],["maternidad","paternidad"],["incapacidad","excusado"]];
+ for(const [oldKey,newKey] of aliases){
+  const old=details[oldKey];
+  if(Array.isArray(old)&&old.some(v=>v!==""&&v!==null&&v!==undefined)){
+   const current=Array.isArray(details[newKey])?details[newKey]:blank();
+   const base=current.map(v=>Number(sanitizeCount(v))||0),extra=old.map(v=>Number(sanitizeCount(v))||0);
+   details[newKey]=base.map((v,i)=>String(v+extra[i]));
+  }
+  delete details[oldKey];
+ }
+ CATEGORIES.forEach(c=>{if(!Array.isArray(details[c.key]))details[c.key]=blank()});
+}
+// No se carga ni se conserva historial entre sesiones.
+const fmt=a=>a?a.join("-"):"—";
+const escapeHtml=s=>String(s??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[ch]);
+const dayFormat=d=>{const p=d.split("-");return p[2]+"/"+p[1]+"/"+p[0]};
+function save(){$("saveState").textContent="Solo en memoria · no se guarda"}
+function notice(t){const el=$("toast");el.textContent=t;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),3800)}
+function audit(g){const efOK=full(g.effective),arAny=any(g.available),nrAny=any(g.reportedNov),arOK=full(g.available),nrOK=full(g.reportedNov);
+ const ef=efOK?vec(g.effective):null, repAvailable=arOK?vec(g.available):null, repNov=nrOK?vec(g.reportedNov):null;
+ const parts=Object.fromEntries(CATEGORIES.map(c=>[c.key,vec(g.details[c.key])]));
+ let details=zeros();for(const c of CATEGORIES)details=add(details,parts[c.key]);
+ const detailsTouched=CATEGORIES.some(c=>any(g.details[c.key]));const calcAvailable=ef?sub(ef,details):null;
+ const messages=[], missing=[];
+ if(!g.received)return {status:"pending",messages:["Parte no marcado como recibido."],ef,repAvailable,repNov,details,calcAvailable,parts};
+ if(!efOK)missing.push("Completa los tres valores de fuerza efectiva.");
+ if(arAny&&!arOK)missing.push("La fuerza disponible reportada debe tener los tres valores.");
+ if(nrAny&&!nrOK)missing.push("El total de novedades reportadas debe tener los tres valores.");
+ if(!detailsTouched&&((repNov&&repNov.some(n=>n>0))||(ef&&repAvailable&&ef.some((n,i)=>n!==repAvailable[i]))||(!nrOK&&!arOK)))missing.push("Ingresa el desglose de novedades. Para un parte sin novedades, registra 0-0-0 en 'Novedades reportadas'.");
+ if(ef){for(let i=0;i<3;i++){if(calcAvailable[i]<0)messages.push(`${RANKS[i]}: hay ${-calcAvailable[i]} novedades más que integrantes de fuerza efectiva.`);
+ if(repAvailable&&calcAvailable[i]!==repAvailable[i])messages.push(`${RANKS[i]}: disponible reportada ${repAvailable[i]}, pero el cálculo da ${calcAvailable[i]}.`);
+ if(repNov&&repNov[i]!==details[i])messages.push(`${RANKS[i]}: novedades reportadas ${repNov[i]}, pero el detalle suma ${details[i]}.`);
+ if(repNov&&repAvailable&&ef[i]!==repNov[i]+repAvailable[i])messages.push(`${RANKS[i]}: fuerza efectiva ${ef[i]} no coincide con disponible ${repAvailable[i]} + novedades ${repNov[i]}.`);
+ }}
+ const status=messages.length?"error":missing.length?"incomplete":(!arOK||!nrOK)?"calculated":"ok";
+ return {status,messages:messages.concat(missing),ef,repAvailable,repNov,details,calcAvailable,parts};
+}
+const checks=()=>Object.fromEntries(GROUPS.map(n=>[n,audit(group(n))]));
+function overall(){const cs=checks();const received=GROUPS.filter(n=>group(n).received),good=GROUPS.filter(n=>["ok","calculated"].includes(cs[n].status));const errors=GROUPS.filter(n=>cs[n].status==="error"),incomplete=GROUPS.filter(n=>cs[n].status==="incomplete"),pending=GROUPS.filter(n=>cs[n].status==="pending");
+ const sumOf=f=>received.reduce((acc,n)=>{const x=f(cs[n]);return x?add(acc,x):acc},zeros());
+ const ef=sumOf(c=>c.ef),av=sumOf(c=>c.repAvailable||c.calcAvailable),repNov=sumOf(c=>c.repNov||c.details),details=sumOf(c=>c.details);
+ const ready=received.length===GROUPS.length&&errors.length===0&&incomplete.length===0;
+ return {cs,received,good,errors,incomplete,pending,ef,av,repNov,details,ready};}
+const opts={pending:["Pendiente",""],incomplete:["Incompleto","incomplete"],error:["Descuadre","err"],calculated:["Calculado","ok"],ok:["Cuadrado","ok"]};
+function matrixHeader(){return '<div class="matrix-head-row"><span class="matrix-head">Concepto</span>'+SHORT.map(s=>`<span class="matrix-head">${s}</span>`).join("")+'</div>'}
+function matrixRow(title,kind,key,vals){return `<div class="matrix-row"><span class="rlabel">${escapeHtml(title)}</span>`+[0,1,2].map(i=>`<label class="matrix-number"><span class="rank-short" aria-hidden="true">${SHORT[i]}</span><input type="number" inputmode="numeric" min="0" max="99999" step="1" aria-label="${escapeHtml(title)} ${RANKS[i]}" placeholder="—" data-kind="${kind}" ${key?`data-cat="${key}"`:""} data-rank="${i}" value="${escapeHtml(sanitizeCount(vals[i]))}"></label>`).join("")+'</div>'}
+function updateGroupUI(){const g=group(),a=audit(g),tag=opts[a.status];$("groupTitle").textContent="Parte del personal · "+selected;$("receivedBox").checked=!!g.received;$("groupTag").textContent=tag[0];$("groupTag").className="tag "+tag[1];
+ for(const [id,value] of [["auditEffective",a.ef],["auditDetails",a.details],["auditNovelty",a.repNov],["auditAvailable",a.calcAvailable],["auditReportedAvailable",a.repAvailable]])$(id).textContent=fmt(value);
+ $("groupIssues").innerHTML=a.messages.filter(s=>a.status!=="pending").map(s=>`<li>${escapeHtml(s)}</li>`).join("");
+ const quick=$("quickResult");quick.className="quick-result "+(a.status==="error"?"qr-bad":a.status==="pending"?"":"qr-good");
+ if(a.status==="pending")quick.textContent="Selecciona el grupo, pega el parte y pulsa «Calcular este grupo».";
+ else quick.innerHTML=`<div class="qr-heading">${escapeHtml(selected)} · ${escapeHtml(tag[0])}</div><div class="qr-values"><div><small>F. efectiva</small><b>${fmt(a.ef)}</b></div><div><small>Novedades</small><b>${fmt(a.details)}</b></div><div><small>F. disponible</small><b>${fmt(a.calcAvailable)}</b></div></div>`+(a.messages.length?`<p>${escapeHtml(a.messages[0])}</p>`:"<p>Revisa el resumen general y continúa con el siguiente grupo.</p>");
+ document.querySelectorAll('[data-calculated]').forEach(el=>{const i=Number(el.dataset.calculated);el.textContent=a.calcAvailable?a.calcAvailable[i]:"—";el.classList.toggle("negative",!!a.calcAvailable&&a.calcAvailable[i]<0)});
+}
+function renderSelected(){const g=group();$("mainMatrix").innerHTML=matrixHeader()+matrixRow("FUERZA EFECTIVA","effective",null,g.effective)+matrixRow("Disponible reportada (opcional)","available",null,g.available)+matrixRow("Novedades reportadas (opcional)","reportedNov",null,g.reportedNov);
+ $("detailMatrix").innerHTML=matrixHeader()+CATEGORIES.map(c=>matrixRow(c.label,"detail",c.key,g.details[c.key])).join("")+`<div class="matrix-row calc-row"><span class="calc-label">Disponible calculada</span>`+[0,1,2].map(i=>`<span class="matrix-number"><span class="rank-short" aria-hidden="true">${SHORT[i]}</span><span class="calc-cell" data-calculated="${i}">—</span></span>`).join("")+'</div>';$("parseMsg").textContent="";$("pasteInput").value="";updateGroupUI()}
+function renderNav(o){$("groupNav").innerHTML=GROUPS.map(name=>{const a=o.cs[name],klass=a.status==="pending"?"":a.status==="error"?"err":a.status==="incomplete"?"incomplete":"ok";return `<button class="group-btn ${selected===name?"active":""}" data-choose="${name}" type="button" aria-current="${selected===name?"true":"false"}"><span class="indicator ${klass}"></span>${name}</button>`}).join("")}
+function renderActivities(){const d=day();$("activityGrid").innerHTML=["GUTUR","UBIC","GINAD","GUPRO","SEPRO"].map(n=>`<div class="act"><label for="act_${n}">${n}</label><textarea id="act_${n}" data-activity="${n}" placeholder="Una actividad por línea...">${escapeHtml(d.groups[n].activities||"")}</textarea></div>`).join("")}
+function renderConfig(){const d=day();$("recipientRank").value=d.recipientRank;$("leadText").value=d.leadText??"";$("reporterRank").value=d.reporterRank;$("reporterName").value=d.reporterName??"";$("greetingMode").value=d.greetingMode||"auto";$("role").value=d.role??"";$("appendZero").checked=d.appendZero!==false;$("showTotalNovelty").checked=!!d.showTotalNovelty}
+function renderAlerts(o){let items=[];if(o.pending.length)items.push("Grupos pendientes: "+o.pending.join(", ")+".");for(const n of [...o.errors,...o.incomplete]){const a=o.cs[n];a.messages.forEach(x=>items.push(`${n}: ${x}`))}
+ const alert=$("alerts");if(o.ready){const calc=GROUPS.filter(n=>o.cs[n].status==="calculated"),metaOK=metadataReady();alert.innerHTML=`<div class="alertbox good"><div class="alert-title">✓ Los cinco partes cierran por oficiales, nivel ejecutivo y patrulleros.</div><div class="alert-explainer">${calc.length?"En "+calc.join(", ")+" se completaron automáticamente cifras no reportadas; compruébalas con la fuente antes del envío.":"Todos los totales reportados coinciden con el detalle de novedades."}${metaOK?"":" Completa el grado y nombre de quien reporta para habilitar la copia del PIN."}</div></div>`}
+ else{const klass=o.errors.length?"danger":"";alert.innerHTML=`<div class="alertbox ${klass}"><div class="alert-title">${o.errors.length?"⚠ Revisar diferencias antes de enviar":"Parte pendiente de completar"}</div><ul class="alert-list">${items.map(s=>`<li>${escapeHtml(s)}</li>`).join("")}</ul><div class="alert-explainer">El botón para copiar el PIN final se habilita únicamente cuando los cinco grupos están completos y no presentan descuadres.</div></div>`}}
+function totals(o,categoryKey){return o.received.reduce((acc,g)=>add(acc,o.cs[g].parts[categoryKey]),zeros())}
+function finalTotals(o,key){return totals(o,key)}
+function printVec(v){return fmt(v)+(day().appendZero!==false?"-0":"")}
+function activityLines(s){const lines=String(s||"").replace(/\r/g,"").split("\n").map(l=>l.trim()).filter(Boolean);return lines.slice(0,70).map(line=>{const clean=line.replace(/^(?:[✅☑✔•*-]\s*)+/,"").trim();return /^(?:horarios?|observaciones?|lugar):/i.test(clean)?clean:"✅ "+clean}).join("\n")}
+function metadataReady(){const d=day();return POLICE_RANKS.includes(d.recipientRank)&&POLICE_RANKS.includes(d.reporterRank)&&String(d.reporterName||"").trim().length>0}
+function greetingForNow(){const h=new Date().getHours();if(h>=12&&h<19)return "Buenas tardes";if(h>=19)return "Buenas noches";return "Buenos días"}
+function selectedGreeting(){const mode=day().greetingMode||"auto";return mode==="morning"?"Buenos días":mode==="afternoon"?"Buenas tardes":mode==="night"?"Buenas noches":greetingForNow()}
+function buildReport(o){const d=day(),s=[],todayLabel=dayFormat(date),metaOK=metadataReady();
+ if(!o.ready||!metaOK){s.push(!o.ready?"*** BORRADOR — NO ENVIAR: PARTE PENDIENTE DE VALIDACIÓN ***":"*** BORRADOR — COMPLETA DESTINATARIO Y DATOS DE QUIEN REPORTA ***");s.push("")}
+ s.push("Dios y Patria, "+selectedGreeting()+" mi "+(d.recipientRank||"Coronel")+".");s.push("");s.push((d.leadText||"Respetuosamente me permito enviar actividades proyectadas para el día").trim()+" "+todayLabel);s.push("","✅ PROYECCIÓN DE ACTIVIDADES");
+ let projected=false;for(const name of ["GUTUR","UBIC","GINAD","GUPRO","SEPRO"]){const lines=activityLines(d.groups[name].activities);if(lines){s.push("","*"+name+"*","",lines);projected=true}}
+ if(!projected)s.push("","[Sin actividades ingresadas]");
+ s.push("","*PARTE DEL PERSONAL*", "");
+ s.push("FUERZA EFECTIVA",printVec(o.ef),"","FUERZA DISPONIBLE",printVec(o.av));
+ if(d.showTotalNovelty)s.push("","NOVEDADES",printVec(o.details));
+ const parts=[{label:"FRANQUICIA O PERMISO",val:finalTotals(o,"permiso")},{label:"COMISIÓN DE ESTUDIO",val:finalTotals(o,"estudio")},{label:"VACACIONES",val:finalTotals(o,"vacaciones")},{label:"*LICENCIA DE PATERNIDAD / MATERNIDAD*",val:finalTotals(o,"paternidad")},...CATEGORIES.filter(c=>!["permiso","estudio","vacaciones","paternidad"].includes(c.key)).map(c=>({label:c.final,val:finalTotals(o,c.key),optional:true}))];
+ parts.forEach(part=>{if(!part.optional||part.val.some(n=>n!==0))s.push("",part.label,printVec(part.val))});
+ if(!o.ready){s.push("","*** ALERTAS DE VALIDACIÓN ***");if(o.pending.length)s.push("Pendientes: "+o.pending.join(", "));for(const n of [...o.errors,...o.incomplete])o.cs[n].messages.forEach(msg=>s.push(n+": "+msg));s.push("No remitir hasta corregir o confirmar cada novedad.")}else if(!metaOK){s.push("","*** FALTA COMPLETAR EL DESTINATARIO O LOS DATOS DE QUIEN REPORTA ***")}
+ if(String(d.reporterName||"").trim())s.push("", "", (d.reporterRank||"Mayor")+". "+d.reporterName.trim()+".");else s.push("", "", "[GRADO Y NOMBRE COMPLETO DE QUIEN REPORTA]");
+ if(d.role.trim())s.push(d.role.trim());return s.join("\n").replace(/\n{4,}/g,"\n\n\n")}
+function refresh(){const o=overall(),metaOK=metadataReady();renderNav(o);$("kGroups").textContent=o.received.length+" / 5";$("kEffective").textContent=o.received.length?fmt(o.ef):"—";$("kAvailable").textContent=o.received.length?fmt(o.av):"—";$("kNovelty").textContent=o.received.length?fmt(o.repNov):"—";$("kIssues").textContent=o.errors.length+o.incomplete.length;$("kIssueHint").textContent=o.errors.length?"Descuadres detectados":o.incomplete.length?"Reportes incompletos":o.ready?"Los cinco grupos cuadran":"Sin descuadres en recibidos";$("progressBar").style.width=20*o.received.length+"%";$("heroState").textContent=o.ready?"Parte cuadrado · 5/5":o.errors.length?"Revisión necesaria · "+o.errors.length+" error(es)":o.received.length?o.received.length+" de 5 grupos recibidos":"Esperando partes";$("heroState").className="hero-state"+(o.ready?" good":o.errors.length?" bad":"");$("reportPreview").textContent=buildReport(o);$("copyBtn").disabled=!o.ready||!metaOK;$("shareBtn").disabled=!o.ready||!metaOK;$("reportState").textContent=o.ready?(metaOK?"VERIFICADO · LISTO PARA COPIAR":"FALTA GRADO O NOMBRE"):"BORRADOR · NO ENVIAR";$("summaryDate").textContent=dayFormat(date);renderAlerts(o);updateGroupUI()}
+function reload(){day();$("dateInput").value=date;renderSelected();renderActivities();renderConfig();refresh()}
+function setCount(el){const kind=el.dataset.kind,i=Number(el.dataset.rank),g=group();if(!Number.isInteger(i)||i<0||i>2)return;const clean=sanitizeCount(el.value);if(kind==="detail"&&Object.prototype.hasOwnProperty.call(g.details,el.dataset.cat))g.details[el.dataset.cat][i]=clean;else if(["effective","available","reportedNov"].includes(kind))g[kind][i]=clean;save();refresh()}
+$("groupNav").addEventListener("click",e=>{const b=e.target.closest("[data-choose]");if(!b)return;selected=b.dataset.choose;renderSelected();refresh()});
+$("mainMatrix").addEventListener("input",e=>{if(e.target.matches("input[data-kind]"))setCount(e.target)});$("detailMatrix").addEventListener("input",e=>{if(e.target.matches("input[data-kind]"))setCount(e.target)});
+for(const id of ["mainMatrix","detailMatrix"]){$(id).addEventListener("change",e=>{if(e.target.matches("input[data-kind]")){e.target.value=sanitizeCount(e.target.value)}})}
+$("receivedBox").addEventListener("change",e=>{group().received=e.target.checked;save();refresh()});
+$("activityGrid").addEventListener("input",e=>{if(!e.target.dataset.activity)return;day().groups[e.target.dataset.activity].activities=e.target.value.slice(0,6500);save();refresh()});
+for(const id of ["leadText","reporterName","role"]){$(id).addEventListener("input",e=>{day()[id]=e.target.value.slice(0,id==="role"?700:id==="reporterName"?160:250);save();refresh()})}
+$("recipientRank").addEventListener("change",e=>{day().recipientRank=e.target.value;save();refresh()});$("reporterRank").addEventListener("change",e=>{day().reporterRank=e.target.value;save();refresh()});$("greetingMode").addEventListener("change",e=>{day().greetingMode=e.target.value;save();refresh()});
+for(const id of ["appendZero","showTotalNovelty"]){$(id).addEventListener("change",e=>{day()[id]=e.target.checked;save();refresh()})}
+function hasSessionData(){return Object.values(state.days||{}).some(d=>d&&d.groups&&(
+ GROUPS.some(n=>{const g=d.groups[n];return g&&(g.received||full(g.effective)||any(g.available)||any(g.reportedNov)||CATEGORIES.some(c=>any(g.details&&g.details[c.key]))||String(g.activities||"").trim().length>0)})||String(d.reporterName||"").trim().length>0
+ ))}
+function changeDate(next){if(!validDate(next)){notice("Fecha inválida.");$("dateInput").value=date;return}if(next===date)return;if(hasSessionData()&&!confirm("Cambiar la fecha borrará los cálculos y actividades de esta sesión. ¿Continuar?")){$("dateInput").value=date;return}state={v:2,days:{}};date=next;selected="GINAD";reload();notice("Fecha cambiada. La sesión comienza vacía.")}
+$("dateInput").addEventListener("change",e=>changeDate(e.target.value));$("todayBtn").addEventListener("click",()=>changeDate(today()));$("tomorrowBtn").addEventListener("click",()=>changeDate(tomorrow()));
+function normalize(t){return String(t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[\uFE0E\uFE0F]/g,"").replace(/[✅☑✔*_]/g," ").replace(/\s+/g," ").trim().toUpperCase()}
+function classify(raw){const t=normalize(raw).replace(/^[^A-Z0-9]+/,"").replace(/^\s*[-•]\s*/,"").trim();
+ // Acepta encabezados completos y abreviaturas comunes usadas por los grupos.
+ if(/\bFUERZA\s+EFECTIVA\b/.test(t)||/^(?:FE|F\.?\s*E\.?)(?:\s|:|$)/.test(t))return "effective";
+ if(/\bFUERZA\s+DISPONIBLE\b/.test(t)||/^(?:FD|F\.?\s*D\.?)(?:\s|:|$)/.test(t))return "available";
+ if(/^(?:NOV|NOVEDAD(?:ES)?)(?:\s|:|$)/.test(t))return "reportedNov";
+ if(/\b(?:PATERNIDAD|MATERNIDAD)\b/.test(t))return "paternidad";
+ if(/\bCOMISION(?:ES)?\s+DE\s+ESTUDIO/.test(t))return "estudio";if(/\bCOMISION(?:ES)?\s+(?:DEL?|DE\s+EL)\s+SERVICIO/.test(t))return "servicio";
+ if(/^(?:VACACION(?:ES)?|VAC)(?:\s|:|$)/.test(t))return "vacaciones";
+ if(/^(?:FRANQUICIAS?|PERMIS(?:O|OS)?)(?:\b|\/|:|$)/.test(t))return "permiso";
+ if(/^(?:EXCUSAD[OA]S?|INCAPACIDAD(?:ES)?)\b/.test(t))return "excusado";if(/^CALAMIDAD\b/.test(t))return "calamidad";if(/^DESCANSOS?\b/.test(t))return "descanso";if(/^OTRAS?\s+NOVEDADES?\b/.test(t))return "otras";
+ return null}
+function parseVec(t){const match=String(t).match(/(?:^|[^\d])(\d{1,5})\s*[-–—]\s*(\d{1,5})\s*[-–—]\s*(\d{1,5})(?:\s*[-–—]\s*(\d{1,5}))?(?!\d)/);if(!match)return null;const nums=match.slice(1,4).map(Number);if(nums.some(v=>!Number.isSafeInteger(v)||v>99999))return null;return {three:nums.map(String),fourth:match[4]===undefined?null:Number(match[4])}}
+function parseWhatsApp(text){const lines=text.replace(/\r/g,"").split("\n");if(lines.length>600)throw Error("El mensaje tiene demasiadas líneas.");const found={},notices=[],seen=new Set();for(let i=0;i<lines.length;i++){const cat=classify(lines[i]);if(!cat)continue;let nums=parseVec(lines[i]);if(!nums){for(let j=i+1;j<=Math.min(i+3,lines.length-1);j++){if(classify(lines[j]))break;nums=parseVec(lines[j]);if(nums)break}}
+ if(!nums)continue;if(nums.fourth!==null&&nums.fourth!==0)throw Error("Apareció una cuarta cifra distinta de cero. Esa categoría necesita configuración antes de importarla.");if(seen.has(cat))throw Error("El mensaje repite una categoría equivalente (por ejemplo, permiso y franquicia). Verifica el parte y deja una sola cifra para esa categoría antes de importarlo.");seen.add(cat);found[cat]=nums.three}
+ if(!found.effective)throw Error("No se encontró la fuerza efectiva. Usa el encabezado FUERZA EFECTIVA o la abreviatura FE con una cifra como 0-3-3.");
+ const detailKeys=CATEGORIES.map(c=>c.key).filter(k=>found[k]);
+ if(!found.reportedNov&&detailKeys.length)notices.push("No se reportó un total de NOVEDADES; se verificará con la suma de las categorías detalladas.");
+ if(!found.available&&detailKeys.length)notices.push("No se encontró FUERZA DISPONIBLE/FD; se calculará con fuerza efectiva menos las novedades detalladas.");
+ if(/PERSONAL\s+TRABAJANDO|TRABAJANDO\s+EN\s+LOS\s+MUNICIPIOS/i.test(text))notices.push("Las secciones de personal trabajando o ubicación se dejaron fuera del cálculo de novedades.");
+ return {found,notices}}
+$("parseBtn").addEventListener("click",()=>{const text=$("pasteInput").value;if(!text.trim()){notice("Pega primero el mensaje del grupo.");return}try{const {found,notices}=parseWhatsApp(text),g=group();if(g.received&&(full(g.effective)||CATEGORIES.some(c=>any(g.details[c.key])))&&!confirm("Ya hay cifras en "+selected+". ¿Reemplazarlas con las del mensaje pegado?"))return;
+ g.effective=found.effective;g.available=found.available||blank();g.reportedNov=found.reportedNov||blank();CATEGORIES.forEach(c=>g.details[c.key]=found[c.key]||blank());g.received=true;$("pasteInput").value="";save();renderSelected();refresh();const used=Object.keys(found).length;$("parseMsg").textContent=`${used} conceptos importados.${notices.length?" "+notices.join(" "):""}`;$("parseMsg").classList.toggle("warn",notices.length>0);notice("Parte de "+selected+" leído. Verifica el resultado.")
+ }catch(error){$("parseMsg").textContent=error.message;$("parseMsg").classList.add("warn")}});
+$("nextGroupBtn").addEventListener("click",()=>{const i=GROUPS.indexOf(selected);selected=GROUPS[(i+1)%GROUPS.length];renderSelected();refresh();$("capture").scrollIntoView({behavior:"smooth",block:"start"})});
+$("clearPasteBtn").addEventListener("click",()=>{$("pasteInput").value="";$("parseMsg").textContent=""});
+// Alternativas de copiado y compartición para Safari en iPhone, Chrome en Android y navegadores de escritorio.
+function legacyCopy(text){
+ const t=document.createElement("textarea");t.value=text;t.readOnly=true;t.setAttribute("aria-label","PIN temporal");
+ // iOS puede rechazar la copia si el campo está colocado fuera de la pantalla.
+ t.style.cssText="position:fixed;top:15px;left:12px;width:calc(100% - 24px);height:46px;opacity:.03;font-size:16px;z-index:49";
+ document.body.appendChild(t);let ok=false;
+ try{t.focus();t.select();t.setSelectionRange(0,text.length);ok=!!document.execCommand("copy") }catch(e){}
+ t.remove();return ok;
+}
+async function copyText(text){
+ if(navigator.clipboard&&window.isSecureContext){
+  try{await navigator.clipboard.writeText(text);return true}catch(e){}
+ }
+ return legacyCopy(text);
+}
+function closeCopyModal(){$("copyModal").hidden=true;$("manualCopyText").value=""}
+function showCopyModal(text){$("manualCopyText").value=text;$("copyModal").hidden=false;$("manualCopyText").focus();$("manualCopyText").select();try{$("manualCopyText").setSelectionRange(0,text.length)}catch(e){}}
+$("selectManualBtn").addEventListener("click",()=>{const t=$("manualCopyText");t.focus();t.select();try{t.setSelectionRange(0,t.value.length)}catch(e){}notice("Texto seleccionado. Pulsa Copiar en el menú del teléfono.")});
+$("closeCopyModalBtn").addEventListener("click",closeCopyModal);
+$("copyModal").addEventListener("click",e=>{if(e.target===$("copyModal"))closeCopyModal()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("copyModal").hidden)closeCopyModal()});
+$("copyBtn").addEventListener("click",async()=>{
+ const o=overall();if(!o.ready){notice("Aún existen pendientes o descuadres.");return}if(!metadataReady()){notice("Selecciona el destinatario e ingresa el grado y nombre completo de quien reporta.");return}
+ const report=buildReport(o),ok=await copyText(report);
+ if(ok)notice("PIN copiado. Envíalo y después pulsa ‘Ya envié el PIN · borrar datos’.");
+ else {showCopyModal(report);notice("Usa la selección manual para copiar el PIN.")}
+});
+$("shareBtn").addEventListener("click",()=>{
+ const o=overall();if(!o.ready||!metadataReady()){notice("Valida los cinco partes y completa los datos antes de compartir.");return}
+ if(typeof navigator.share!=="function"){showCopyModal(buildReport(o));return}
+ // Invocar compartir en el mismo toque, sin esperas, para cumplir los permisos de Safari iOS.
+ navigator.share({text:buildReport(o)}).catch(e=>{if(e&&e.name==="AbortError")return;showCopyModal(buildReport(o));notice("No se pudo abrir Compartir. Copia el PIN manualmente.")});
+});
+function clearSession(message){closeCopyModal();state={v:2,days:{}};date=tomorrow();selected="GINAD";try{localStorage.removeItem("sepro_control_personal_v2")}catch(e){}reload();notice(message||"Datos borrados de la sesión. No existe historial guardado.")}
+$("clearAfterSendBtn").addEventListener("click",()=>{if(!confirm("¿Confirmas que ya enviaste el PIN y deseas borrar de la memoria de esta pestaña todas las cifras, actividades y nombres? No se podrán recuperar."))return;clearSession("Datos borrados. La aplicación está lista para una nueva jornada.")});
+// Si se recarga, cierra o abandona la página, limpia también el estado que el navegador pudiera restaurar.
+window.addEventListener("pagehide",()=>{closeCopyModal();state={v:2,days:{}};date=tomorrow();selected="GINAD";try{reload()}catch(e){}});
+$("shareBtn").hidden=typeof navigator.share!=="function";$("currentYear").textContent=String(new Date().getFullYear());reload();$("saveState").textContent="Solo en memoria · no se guarda";$("runtimeWarning").hidden=true;$("mainApp").hidden=false;
+})();
+</script>
+</body>
+</html>
